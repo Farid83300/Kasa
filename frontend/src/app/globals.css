@@ -2,13 +2,16 @@
 
 @theme inline {
   /* Couleurs de marque Kasa */
-  --color-kasa-primary: #842c16;   /* Rouge brique : titres, boutons, prix */
-  --color-kasa-accent: #e84a2f;    /* Orange-rouge : logo, accents */
-  --color-kasa-bg: #fffbf8;        /* Fond crème de page */
-  --color-kasa-text-secondary: #808080; /* Localisation, footer */
+  --color-kasa-primary: #842c16;
+  --color-kasa-accent: #e84a2f;
+  --color-kasa-bg: #fffbf8;
+  --color-kasa-text-secondary: #808080;
 
   /* Police */
   --font-sans: var(--font-inter);
+
+  /* Largeur de conteneur personnalisée */
+  --container-1440: 1440px;
 }
 
 body {
