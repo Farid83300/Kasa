@@ -21,3 +21,14 @@ export async function getPropertyById(id: string): Promise<PropertyDetail> {
 
   return res.json();
 }
+
+export async function getPropertyBySlug(slug: string): Promise<PropertyDetail | null> {
+  const properties = await getProperties();
+  const match = properties.find((property) => property.slug === slug);
+
+  if (!match) {
+    return null;
+  }
+
+  return getPropertyById(match.id);
+}

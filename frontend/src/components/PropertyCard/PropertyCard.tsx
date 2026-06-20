@@ -9,7 +9,7 @@ interface PropertyCardProps {
 
 export default function PropertyCard({ property, priority = false }: PropertyCardProps) {
   return (
-    <Link href={`/logement/${property.id}`} className="block group">
+    <Link href={`/logement/${property.slug}`} className="block group">
       <article className="bg-white rounded-2xl overflow-hidden">
         <div className="relative aspect-square">
           <Image
