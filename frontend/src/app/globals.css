@@ -1,26 +1,17 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Couleurs de marque Kasa */
+  --color-kasa-primary: #842c16;   /* Rouge brique : titres, boutons, prix */
+  --color-kasa-accent: #e84a2f;    /* Orange-rouge : logo, accents */
+  --color-kasa-bg: #fffbf8;        /* Fond crème de page */
+  --color-kasa-text-secondary: #808080; /* Localisation, footer */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Police */
+  --font-sans: var(--font-inter);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-kasa-bg);
+  font-family: var(--font-sans), sans-serif;
 }

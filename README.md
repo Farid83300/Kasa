@@ -48,3 +48,32 @@ Pour configurer le projet localement, suivez ces étapes :
     yarn install
 ```
 4. Créez un fichier `.env.local` à la racine du dossier `frontend` avec l'URL de l'API :
+    NEXT_PUBLIC_API_URL=http://localhost:3000/api
+5. Accédez au répertoire du backend :
+```bash
+    cd ../backend
+```
+6. Installez les dépendances du backend :
+```bash
+    npm install
+```
+
+## Utilisation
+
+### Démarrer le serveur Backend
+
+Pour démarrer le serveur Backend (écoute sur le port 3000), exécutez :
+```bash
+npm start
+```
+
+### Démarrer le serveur Frontend
+
+Pour démarrer le serveur Frontend (écoute sur le port 3002), exécutez la commande suivante :
+```bash
+yarn dev
+```
+
+Ouvrez votre navigateur et accédez à [http://localhost:3002](http://localhost:3002) pour voir l'application.
+
+> ⚠️ Le backend et le frontend doivent tous les deux être lancés simultanément (dans deux terminaux séparés) pour que l'application fonctionne correctement.
