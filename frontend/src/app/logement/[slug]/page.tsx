@@ -88,7 +88,6 @@ export default async function PropertyPage({ params }: PageProps) {
         </div>
 
         <aside className="w-full lg:w-80 lg:shrink-0">
-          {/* sticky : le bloc hôte reste visible en scrollant sur desktop */}
           <div className="lg:sticky lg:top-8">
             <HostInfo
               name={property.host.name}

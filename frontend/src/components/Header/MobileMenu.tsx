@@ -16,11 +16,17 @@ export default function MobileMenu() {
         onClick={() => setIsOpen(!isOpen)}
         aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
         aria-expanded={isOpen}
-        className="flex flex-col gap-1.5 p-2"
+        className="flex flex-col items-end justify-center gap-1.5 w-6 h-6"
       >
-        <span className="block w-6 h-0.5 bg-gray-700" />
-        <span className="block w-6 h-0.5 bg-gray-700" />
-        <span className="block w-6 h-0.5 bg-gray-700" />
+        <span
+          className={`block h-0.5 bg-gray-700 transition-all duration-200 ${isOpen ? 'w-6 opacity-0' : 'w-5'}`}
+        />
+        <span
+          className={`block h-0.5 bg-gray-700 transition-all duration-200 ${isOpen ? 'w-6 translate-y-1 -rotate-45' : 'w-6'}`}
+        />
+        <span
+          className={`block h-0.5 bg-gray-700 transition-all duration-200 ${isOpen ? 'w-6 -translate-y-1 rotate-45' : 'w-4'}`}
+        />
       </button>
 
       {isOpen && (

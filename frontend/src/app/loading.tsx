@@ -11,7 +11,7 @@ export default function Loading() {
         <div className="h-48 md:h-96 rounded-2xl bg-gray-200 animate-pulse mt-8" />
       </div>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-10">
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="rounded-2xl overflow-hidden">
             <div className="aspect-square bg-gray-200 animate-pulse" />

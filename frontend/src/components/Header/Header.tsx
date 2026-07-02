@@ -9,7 +9,7 @@ import MobileMenu from './MobileMenu';
 export default function Header() {
   return (
     <header className="px-4 py-6 md:px-8">
-      <div className="hidden md:flex w-fit items-center gap-30 max-w-1440 mx-auto bg-white rounded-2xl px-8 py-4">
+      <div className="hidden md:grid grid-cols-3 items-center w-fit mx-auto bg-white rounded-2xl px-8 py-4 gap-x-10">
         <nav className="flex items-center gap-6">
           <Link href="/" className="text-sm hover:text-kasa-primary">
             Accueil
@@ -19,7 +19,7 @@ export default function Header() {
           </Link>
         </nav>
 
-        <Link href="/" aria-label="Accueil Kasa">
+        <Link href="/" aria-label="Accueil Kasa" className="flex justify-center">
           <Image
             src="/logo.svg"
             alt="Kasa"
@@ -27,10 +27,11 @@ export default function Header() {
             height={40}
             priority
             className="h-10 w-auto"
+            style={{ width: 'auto' }}
           />
         </Link>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center justify-end gap-6">
           <Link href="/logement/ajouter" className="text-sm text-kasa-primary hover:underline">
             +Ajouter un logement
           </Link>
