@@ -1,13 +1,17 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useCallback, useState, type KeyboardEvent } from "react";
+import Image from 'next/image';
+import { useCallback, useState, type KeyboardEvent } from 'react';
 
 interface GalleryProps {
   images: string[];
   alt: string;
 }
 
+/**
+ * Carrousel d'images — Client Component (état local + interactions clavier).
+ * Règles backlog : pas de flèches si une seule image, boucle entre dernière et première.
+ */
 export default function Gallery({ images, alt }: GalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const hasMultipleImages = images.length > 1;
@@ -22,10 +26,11 @@ export default function Gallery({ images, alt }: GalleryProps) {
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (!hasMultipleImages) return;
-    if (event.key === "ArrowLeft") {
+    if (event.key === 'ArrowLeft') {
       event.preventDefault();
       goToPrevious();
-    } else if (event.key === "ArrowRight") {
+    }
+    if (event.key === 'ArrowRight') {
       event.preventDefault();
       goToNext();
     }

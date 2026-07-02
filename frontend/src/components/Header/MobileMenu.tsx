@@ -1,8 +1,12 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
+import { useState } from 'react';
+import Link from 'next/link';
 
+/**
+ * Menu mobile — Client Component.
+ * Isolé du Header pour limiter "use client" au strict minimum.
+ */
 export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -10,7 +14,7 @@ export default function MobileMenu() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Ouvrir le menu"
+        aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
         aria-expanded={isOpen}
         className="flex flex-col gap-1.5 p-2"
       >
@@ -27,7 +31,11 @@ export default function MobileMenu() {
           <Link href="/a-propos" onClick={() => setIsOpen(false)} className="text-sm">
             À propos
           </Link>
-          <Link href="/logement/ajouter" onClick={() => setIsOpen(false)} className="text-sm text-kasa-primary">
+          <Link
+            href="/logement/ajouter"
+            onClick={() => setIsOpen(false)}
+            className="text-sm text-kasa-primary"
+          >
             +Ajouter un logement
           </Link>
           <Link href="/favoris" onClick={() => setIsOpen(false)} className="text-sm">

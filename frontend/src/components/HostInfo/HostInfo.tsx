@@ -1,6 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
-import Rating from "@/components/Rating/Rating";
+import Image from 'next/image';
+import Link from 'next/link';
+import Rating from '@/components/Rating/Rating';
 
 interface HostInfoProps {
   name: string;
@@ -8,6 +8,10 @@ interface HostInfoProps {
   rating: number;
 }
 
+/**
+ * Bloc hôte — Server Component.
+ * overflow-hidden sur le conteneur (pas sur Image) car next/image avec fill ne supporte pas border-radius.
+ */
 export default function HostInfo({ name, picture, rating }: HostInfoProps) {
   return (
     <div className="rounded-2xl bg-white p-6 flex flex-col gap-6">

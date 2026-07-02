@@ -1,10 +1,11 @@
+// Hôte propriétaire d'un logement
 export interface Host {
   id: number;
   name: string;
   picture: string;
 }
 
-// Forme retournée par GET /api/properties (liste)
+// Données retournées par GET /api/properties — version allégée sans galerie ni équipements
 export interface PropertySummary {
   id: string;
   slug: string;
@@ -18,7 +19,7 @@ export interface PropertySummary {
   host: Host;
 }
 
-// Forme retournée par GET /api/properties/:id (détail)
+// Données retournées par GET /api/properties/:id — étend PropertySummary avec les détails complets
 export interface PropertyDetail extends PropertySummary {
   pictures: string[];
   equipments: string[];

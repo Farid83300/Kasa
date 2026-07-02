@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 interface BannerProps {
   title: string;
@@ -6,6 +6,10 @@ interface BannerProps {
   imageSrc: string;
 }
 
+/**
+ * Bannière principale — Server Component.
+ * alt="" car l'image est décorative, le titre porte l'information (bonne pratique WCAG).
+ */
 export default function Banner({ title, subtitle, imageSrc }: BannerProps) {
   return (
     <div className="text-center">

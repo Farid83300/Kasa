@@ -1,12 +1,14 @@
-import Image from "next/image";
-import Link from "next/link";
-import { PropertySummary } from "@/types/logement";
+import Image from 'next/image';
+import Link from 'next/link';
+import { PropertySummary } from '@/types/logement';
 
 interface PropertyCardProps {
   property: PropertySummary;
+  // priority=true uniquement sur la première carte — précharge le LCP
   priority?: boolean;
 }
 
+/** Carte de logement — Server Component. Navigue vers /logement/[slug] au clic */
 export default function PropertyCard({ property, priority = false }: PropertyCardProps) {
   return (
     <Link href={`/logement/${property.slug}`} className="block group">
@@ -16,14 +18,11 @@ export default function PropertyCard({ property, priority = false }: PropertyCar
             src={property.cover}
             alt={property.title}
             fill
+            priority={priority}
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover group-hover:scale-105 transition-transform"
-            priority={priority}
           />
-          <span
-            className="absolute top-3 right-3 bg-white/30 rounded-full p-2"
-            aria-hidden="true"
-          >
+          <span className="absolute top-3 right-3 bg-white/30 rounded-full p-2" aria-hidden="true">
             ♡
           </span>
         </div>

@@ -1,7 +1,8 @@
-import { getProperties } from "@/lib/properties";
-import Banner from "@/components/Banner/Banner";
-import PropertyCard from "@/components/PropertyCard/PropertyCard";
+import { getProperties } from '@/lib/properties';
+import Banner from '@/components/Banner/Banner';
+import PropertyCard from '@/components/PropertyCard/PropertyCard';
 
+/** Page d'accueil — Server Component, le fetch se fait directement sans useEffect */
 export default async function Home() {
   const properties = await getProperties();
 
@@ -14,8 +15,9 @@ export default async function Home() {
       />
 
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-        {properties.map((property) => (
-          <PropertyCard key={property.id} property={property} />
+        {properties.map((property, index) => (
+          // priority uniquement sur la première carte — LCP (Largest Contentful Paint)
+          <PropertyCard key={property.id} property={property} priority={index === 0} />
         ))}
       </section>
     </div>

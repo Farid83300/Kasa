@@ -1,6 +1,10 @@
+/**
+ * Fichier spécial Next.js — affiché automatiquement pendant le chargement de page.tsx.
+ * Reproduit la structure visuelle de la page d'accueil avec des blocs animés (skeleton).
+ */
 export default function Loading() {
   return (
-    <div className="px-4 md:px-8 max-w-6xl mx-auto pb-16">
+    <div className="px-4 md:px-8 max-w-1440 mx-auto pb-16">
       <div className="text-center">
         <div className="h-8 bg-gray-200 rounded animate-pulse w-80 mx-auto" />
         <div className="h-4 bg-gray-200 rounded animate-pulse w-96 mx-auto mt-4" />

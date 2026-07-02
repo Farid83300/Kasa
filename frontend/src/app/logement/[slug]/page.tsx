@@ -1,16 +1,17 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import { getPropertyBySlug } from "@/lib/properties";
-import Gallery from "@/components/Gallery/Gallery";
-import Tag from "@/components/Tag/Tag";
-import HostInfo from "@/components/HostInfo/HostInfo";
-import type { Metadata } from "next";
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import type { Metadata } from 'next';
+import { getPropertyBySlug } from '@/lib/properties';
+import Gallery from '@/components/Gallery/Gallery';
+import Tag from '@/components/Tag/Tag';
+import HostInfo from '@/components/HostInfo/HostInfo';
 
+// params est une Promise depuis Next.js 15+ — à awaiter avant déstructuration
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-// SEO dynamique — génère un <title> et <description> par logement
+/** Génère le <title> et <meta description> dynamiquement pour le SEO de chaque logement */
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const property = await getPropertyBySlug(slug);
@@ -23,6 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+/** Page de détail d'un logement — Server Component */
 export default async function PropertyPage({ params }: PageProps) {
   const { slug } = await params;
   const property = await getPropertyBySlug(slug);
@@ -33,8 +35,6 @@ export default async function PropertyPage({ params }: PageProps) {
 
   return (
     <div className="px-4 md:px-8 max-w-1440 mx-auto pb-16">
-
-      {/* Bouton retour */}
       <Link
         href="/"
         className="inline-flex items-center gap-2 mb-6 rounded-xl border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
@@ -42,10 +42,7 @@ export default async function PropertyPage({ params }: PageProps) {
         ← Retour aux annonces
       </Link>
 
-      {/* Layout desktop : galerie + hôte côte à côte */}
       <div className="flex flex-col lg:flex-row gap-8">
-
-        {/* Colonne gauche : galerie + infos */}
         <div className="flex-1 flex flex-col gap-6">
           <Gallery images={property.pictures} alt={property.title} />
 
@@ -59,7 +56,6 @@ export default async function PropertyPage({ params }: PageProps) {
 
           <p className="text-sm leading-relaxed">{property.description}</p>
 
-          {/* Équipements */}
           {property.equipments.length > 0 && (
             <section aria-labelledby="equipements-titre">
               <h2 id="equipements-titre" className="mb-3 font-semibold">
@@ -75,7 +71,6 @@ export default async function PropertyPage({ params }: PageProps) {
             </section>
           )}
 
-          {/* Tags / catégories */}
           {property.tags.length > 0 && (
             <section aria-labelledby="categorie-titre">
               <h2 id="categorie-titre" className="mb-3 font-semibold">
@@ -92,8 +87,8 @@ export default async function PropertyPage({ params }: PageProps) {
           )}
         </div>
 
-        {/* Colonne droite : bloc hôte (sticky sur desktop) */}
         <aside className="w-full lg:w-80 lg:shrink-0">
+          {/* sticky : le bloc hôte reste visible en scrollant sur desktop */}
           <div className="lg:sticky lg:top-8">
             <HostInfo
               name={property.host.name}
@@ -102,7 +97,6 @@ export default async function PropertyPage({ params }: PageProps) {
             />
           </div>
         </aside>
-
       </div>
     </div>
   );
