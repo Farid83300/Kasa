@@ -48,9 +48,7 @@ Pour configurer le projet localement, suivez ces étapes :
     yarn install
 ```
 4. Créez un fichier `.env.local` à la racine du dossier `frontend` avec l'URL de l'API :
-```bash
     NEXT_PUBLIC_API_URL=http://localhost:3000/api
-```
 5. Accédez au répertoire du backend :
 ```bash
     cd ../backend
