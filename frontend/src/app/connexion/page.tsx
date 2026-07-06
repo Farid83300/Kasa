@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import AuthCard from "@/components/Auth/AuthCard";
-import LoginForm from "@/components/Auth/LoginForm";
+import type { Metadata } from 'next';
+import AuthCard from '@/components/Auth/AuthCard';
+import LoginForm from '@/components/Auth/LoginForm';
 
 export const metadata: Metadata = {
-  title: "Connexion — Kasa",
+  title: 'Connexion — Kasa',
 };
 
 export default function LoginPage() {

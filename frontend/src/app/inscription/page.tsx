@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import AuthCard from "@/components/Auth/AuthCard";
-import RegisterForm from "@/components/Auth/RegisterForm";
+import type { Metadata } from 'next';
+import AuthCard from '@/components/Auth/AuthCard';
+import RegisterForm from '@/components/Auth/RegisterForm';
 
 export const metadata: Metadata = {
-  title: "Inscription — Kasa",
+  title: 'Inscription — Kasa',
 };
 
 export default function RegisterPage() {

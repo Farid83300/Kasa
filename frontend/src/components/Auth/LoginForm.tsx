@@ -3,8 +3,6 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { login } from "@/lib/auth";
-import { saveToken } from "@/lib/token";
 
 /** Formulaire de connexion — Client Component pour l'état et la soumission */
 export default function LoginForm() {
@@ -20,15 +18,26 @@ export default function LoginForm() {
     setIsSubmitting(true);
 
     try {
-      const { token } = await login({ email, password });
-      saveToken(token);
-      router.push("/");
+        const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+        throw new Error(data.error ?? "Une erreur est survenue.");
+        }
+
+        router.push("/");
+        router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Une erreur est survenue.");
+        setError(err instanceof Error ? err.message : "Une erreur est survenue.");
     } finally {
-      setIsSubmitting(false);
+        setIsSubmitting(false);
     }
-  };
+    };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">

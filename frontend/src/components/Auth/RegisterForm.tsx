@@ -1,18 +1,16 @@
-"use client";
+'use client';
 
-import { useState, type FormEvent } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { register } from "@/lib/auth";
-import { saveToken } from "@/lib/token";
+import { useState, type FormEvent } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 /** Formulaire d'inscription — Client Component pour l'état et la soumission */
 export default function RegisterForm() {
   const router = useRouter();
-  const [nom, setNom] = useState("");
-  const [prenom, setPrenom] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [nom, setNom] = useState('');
+  const [prenom, setPrenom] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,16 +26,26 @@ export default function RegisterForm() {
 
     setIsSubmitting(true);
     try {
-      // L'API n'a qu'un champ "name" — on combine nom + prénom pour rester fidèle à la maquette
-      const { token } = await register({
-        name: `${prenom} ${nom}`.trim(),
-        email,
-        password,
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: `${prenom} ${nom}`.trim(),
+          email,
+          password,
+        }),
       });
-      saveToken(token);
-      router.push("/");
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error ?? 'Une erreur est survenue.');
+      }
+
+      router.push('/');
+      router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Une erreur est survenue.");
+      setError(err instanceof Error ? err.message : 'Une erreur est survenue.');
     } finally {
       setIsSubmitting(false);
     }
@@ -110,7 +118,7 @@ export default function RegisterForm() {
           className="mt-1"
         />
         <span>
-          J&apos;accepte les{" "}
+          J&apos;accepte les{' '}
           <Link href="/cgu" className="underline">
             conditions générales d&apos;utilisation
           </Link>
@@ -124,11 +132,11 @@ export default function RegisterForm() {
         disabled={isSubmitting}
         className="mt-2 rounded-xl bg-kasa-primary py-3 text-center text-sm text-white hover:opacity-90 transition-opacity disabled:opacity-50"
       >
-        {isSubmitting ? "Inscription..." : "S'inscrire"}
+        {isSubmitting ? 'Inscription...' : "S'inscrire"}
       </button>
 
       <p className="text-center text-sm text-kasa-primary">
-        Déjà membre ?{" "}
+        Déjà membre ?{' '}
         <Link href="/connexion" className="underline">
           Se connecter
         </Link>

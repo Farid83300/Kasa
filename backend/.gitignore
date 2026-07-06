@@ -1,2 +1,9 @@
 node_modules
 .idea
+.env
+
+# Base de données
+*.db
+*.sqlite
+*.sqlite3
+dev.db

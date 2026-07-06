@@ -4,7 +4,7 @@ export interface AuthUser {
   name: string;
   email: string;
   picture: string | null;
-  role: "client" | "owner" | "admin";
+  role: 'client' | 'owner' | 'admin';
 }
 
 /** Réponse commune de /auth/register et /auth/login */
@@ -17,7 +17,7 @@ export interface RegisterPayload {
   name: string;
   email: string;
   password: string;
-  role?: "client" | "owner";
+  role?: 'client' | 'owner';
 }
 
 export interface LoginPayload {
