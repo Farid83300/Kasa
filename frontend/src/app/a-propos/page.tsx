@@ -36,6 +36,7 @@ export default function AboutPage() {
           fill
           sizes="(max-width: 768px) 100vw, 1200px"
           className="object-cover"
+          loading="eager"
         />
       </div>
 
@@ -68,6 +69,7 @@ export default function AboutPage() {
             fill
             sizes="(max-width: 768px) 100vw, 500px"
             className="object-cover"
+            loading="eager"
           />
         </div>
       </div>
