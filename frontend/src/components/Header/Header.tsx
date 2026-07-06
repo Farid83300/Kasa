@@ -27,7 +27,7 @@ export default function Header() {
             height={40}
             priority
             className="h-10 w-auto"
-            style={{ width: 'auto' }}
+            style={{ width: 'auto', height: 'auto' }}
           />
         </Link>
 
@@ -36,17 +36,39 @@ export default function Header() {
             +Ajouter un logement
           </Link>
           <Link href="/favoris" aria-label="Favoris">
-            ♡
+            <Image
+              src="/images/coeur.png"
+              alt="Favoris"
+              width={10}
+              height={10}
+              className="h-3.5 w-3.5"
+              loading="eager"
+            />
           </Link>
           <Link href="/messages" aria-label="Messages">
-            ✉
+            <Image
+              src="/images/message.png"
+              alt="Messages"
+              width={10}
+              height={10}
+              className="h-3.5 w-3.5"
+              loading="eager"
+            />
           </Link>
         </div>
       </div>
 
       <div className="flex md:hidden items-center justify-between">
         <Link href="/" aria-label="Accueil Kasa">
-          <Image src="/icon.svg" alt="Kasa" width={36} height={36} priority className="h-9 w-9" />
+          <Image
+            src="/icon.svg"
+            alt="Kasa"
+            width={36}
+            height={36}
+            priority
+            className="h-9 w-9"
+            style={{ width: 'auto', height: 'auto' }}
+          />
         </Link>
         <MobileMenu />
       </div>
