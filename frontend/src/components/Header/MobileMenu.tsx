@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
+import { useState } from 'react';
+import Link from 'next/link';
 
 /**
  * Menu mobile — Client Component.
@@ -14,18 +14,18 @@ export default function MobileMenu() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
+        aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
         aria-expanded={isOpen}
         className="flex flex-col items-end justify-center gap-1.5 w-6 h-6"
       >
         <span
-          className={`block h-0.5 bg-gray-700 transition-all duration-200 ${isOpen ? "w-6 opacity-0" : "w-5"}`}
+          className={`block h-0.5 bg-gray-700 transition-all duration-200 ${isOpen ? 'w-6 opacity-0' : 'w-5'}`}
         />
         <span
-          className={`block h-0.5 bg-gray-700 transition-all duration-200 ${isOpen ? "w-6 translate-y-1 -rotate-45" : "w-6"}`}
+          className={`block h-0.5 bg-gray-700 transition-all duration-200 ${isOpen ? 'w-6 translate-y-1 -rotate-45' : 'w-6'}`}
         />
         <span
-          className={`block h-0.5 bg-gray-700 transition-all duration-200 ${isOpen ? "w-6 -translate-y-1 rotate-45" : "w-4"}`}
+          className={`block h-0.5 bg-gray-700 transition-all duration-200 ${isOpen ? 'w-6 -translate-y-1 rotate-45' : 'w-4'}`}
         />
       </button>
 
