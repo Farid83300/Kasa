@@ -41,7 +41,7 @@ Pour configurer le projet localement, suivez ces étapes :
 ```
 2. Accédez au répertoire du frontend :
 ```bash
-    cd Kasa/frontend
+    cd ../frontend
 ```
 3. Installez les dépendances du frontend :
 ```bash
