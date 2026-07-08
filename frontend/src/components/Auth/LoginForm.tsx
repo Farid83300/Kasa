@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState, type FormEvent } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useState, type FormEvent } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 /** Formulaire de connexion — Client Component pour l'état et la soumission */
 export default function LoginForm() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -18,26 +18,26 @@ export default function LoginForm() {
     setIsSubmitting(true);
 
     try {
-        const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
-        });
+      });
 
-        const data = await res.json();
+      const data = await res.json();
 
-        if (!res.ok) {
-        throw new Error(data.error ?? "Une erreur est survenue.");
-        }
+      if (!res.ok) {
+        throw new Error(data.error ?? 'Une erreur est survenue.');
+      }
 
-        router.push("/");
-        router.refresh();
+      router.push('/');
+      router.refresh();
     } catch (err) {
-        setError(err instanceof Error ? err.message : "Une erreur est survenue.");
+      setError(err instanceof Error ? err.message : 'Une erreur est survenue.');
     } finally {
-        setIsSubmitting(false);
+      setIsSubmitting(false);
     }
-    };
+  };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -76,15 +76,13 @@ export default function LoginForm() {
         disabled={isSubmitting}
         className="mt-2 rounded-xl bg-kasa-primary py-3 text-center text-sm text-white hover:opacity-90 transition-opacity disabled:opacity-50"
       >
-        {isSubmitting ? "Connexion..." : "Se connecter"}
+        {isSubmitting ? 'Connexion...' : 'Se connecter'}
       </button>
 
-      <p className="text-center text-sm text-kasa-primary">
-        Mot de passe oublié
-      </p>
+      <p className="text-center text-sm text-kasa-primary">Mot de passe oublié</p>
 
       <p className="text-center text-sm text-kasa-primary">
-        Pas encore de compte ?{" "}
+        Pas encore de compte ?{' '}
         <Link href="/inscription" className="underline">
           Inscrivez-vous
         </Link>

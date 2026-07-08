@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { PropertySummary } from '@/types/logement';
+import FavoriteButton from '@/components/FavoriteButton/FavoriteButton';
 
 interface PropertyCardProps {
   property: PropertySummary;
@@ -8,11 +9,16 @@ interface PropertyCardProps {
   priority?: boolean;
 }
 
-/** Carte de logement — Server Component. Navigue vers /logement/[slug] au clic */
+/**
+ * Carte de logement — Server Component.
+ * Le bouton favori est extrait en Client Component à part (FavoriteButton)
+ * et positionné en frère du Link, pas imbriqué dedans — un <button> dans un <a>
+ * serait invalide en HTML et poserait des soucis d'accessibilité/navigation.
+ */
 export default function PropertyCard({ property, priority = false }: PropertyCardProps) {
   return (
-    <Link href={`/logement/${property.slug}`} className="block group">
-      <article className="bg-white rounded-2xl overflow-hidden">
+    <article className="relative bg-white rounded-2xl overflow-hidden group">
+      <Link href={`/logement/${property.slug}`} className="block">
         <div className="relative aspect-square">
           <Image
             src={property.cover}
@@ -22,9 +28,6 @@ export default function PropertyCard({ property, priority = false }: PropertyCar
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover group-hover:scale-105 transition-transform"
           />
-          <span className="absolute top-3 right-3 bg-white/30 rounded-full p-2" aria-hidden="true">
-            ♡
-          </span>
         </div>
 
         <div className="py-4">
@@ -34,7 +37,9 @@ export default function PropertyCard({ property, priority = false }: PropertyCar
             <span className="font-bold">{property.price_per_night}€</span> par nuit
           </p>
         </div>
-      </article>
-    </Link>
+      </Link>
+
+      <FavoriteButton propertyId={property.id} />
+    </article>
   );
 }
