@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { UserRound } from 'lucide-react';
 import Rating from '@/components/Rating/Rating';
 
 interface HostInfoProps {
@@ -19,13 +20,22 @@ export default function HostInfo({ name, picture, rating }: HostInfoProps) {
 
       <div className="flex items-center gap-4">
         <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full">
-          <Image
-            src={picture}
-            alt={`Photo de ${name}`}
-            fill
-            sizes="64px"
-            className="object-cover"
-          />
+          {picture ? (
+            <Image
+              src={picture}
+              alt={`Photo de ${name}`}
+              fill
+              sizes="64px"
+              className="object-cover"
+            />
+          ) : (
+            <div
+              className="h-full w-full bg-gray-200 flex items-center justify-center"
+              aria-hidden="true"
+            >
+              <UserRound size={28} className="text-gray-400" strokeWidth={1.5} />
+            </div>
+          )}
         </div>
         <div>
           <p className="font-semibold">{name}</p>

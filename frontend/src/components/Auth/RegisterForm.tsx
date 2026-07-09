@@ -11,6 +11,7 @@ export default function RegisterForm() {
   const [prenom, setPrenom] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState<'client' | 'owner'>('client');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,6 +34,7 @@ export default function RegisterForm() {
           name: `${prenom} ${nom}`.trim(),
           email,
           password,
+          role,
         }),
       });
 
@@ -109,6 +111,31 @@ export default function RegisterForm() {
           className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm"
         />
       </div>
+
+      {/* Sélecteur de rôle — absent de la maquette, ajouté pour permettre la création de logements (fonctionnalité optionnelle) */}
+      <fieldset>
+        <legend className="block text-sm mb-1">Vous êtes</legend>
+        <div className="flex gap-4">
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="radio"
+              name="role"
+              checked={role === 'client'}
+              onChange={() => setRole('client')}
+            />
+            Un voyageur
+          </label>
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="radio"
+              name="role"
+              checked={role === 'owner'}
+              onChange={() => setRole('owner')}
+            />
+            Un hôte
+          </label>
+        </div>
+      </fieldset>
 
       <label className="flex items-start gap-2 text-sm">
         <input
