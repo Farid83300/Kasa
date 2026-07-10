@@ -1,36 +1,21 @@
-'use client';
+"use client";
 
-import { useState, type FormEvent, type ChangeEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, type FormEvent, type ChangeEvent } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const EQUIPMENTS = [
-  'Micro-Ondes',
-  'Clic-clac',
-  'Douche italienne',
-  'Four',
-  'Frigo',
-  'Rangements',
-  'WIFI',
-  'Lit',
-  'Parking',
-  'Bouilloire',
-  'Sèche Cheveux',
-  'SDB',
-  'Machine à laver',
-  'Toilettes sèches',
-  'Cuisine équipée',
-  'Cintres',
-  'Télévision',
-  'Baie vitrée',
-  'Chambre Séparée',
-  'Hotte',
-  'Climatisation',
-  'Baignoire',
-  'Frigo Américain',
-  'Vue Parc',
+  "Micro-Ondes", "Clic-clac", "Douche italienne", "Four", "Frigo", "Rangements",
+  "WIFI", "Lit", "Parking", "Bouilloire", "Sèche Cheveux", "SDB",
+  "Machine à laver", "Toilettes sèches", "Cuisine équipée", "Cintres",
+  "Télévision", "Baie vitrée", "Chambre Séparée", "Hotte",
+  "Climatisation", "Baignoire", "Frigo Américain", "Vue Parc",
 ];
 
-const DEFAULT_TAGS = ['Parc', 'Night Life', 'Culture', 'Nature', 'Touristique'];
+const DEFAULT_TAGS = ["Parc", "Night Life", "Culture", "Nature", "Touristique"];
+
+// Alignée sur la vraie limite du backend (multer, controllers/uploadsController.js)
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 /**
  * Envoie un fichier au proxy d'upload et retourne l'URL absolue de l'image.
@@ -40,41 +25,50 @@ const DEFAULT_TAGS = ['Parc', 'Night Life', 'Culture', 'Nature', 'Touristique'];
  */
 async function uploadImage(file: File): Promise<string> {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append("file", file);
 
-  const res = await fetch('/api/uploads', { method: 'POST', body: formData });
+  const res = await fetch("/api/uploads", { method: "POST", body: formData });
   const data = await res.json();
 
   if (!res.ok) {
     throw new Error(data.error ?? "Erreur lors de l'upload de l'image");
   }
 
-  const backendOrigin = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, '');
-  return data.url.startsWith('http') ? data.url : `${backendOrigin}${data.url}`;
+  const backendOrigin = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api$/, "");
+  return data.url.startsWith("http") ? data.url : `${backendOrigin}${data.url}`;
+}
+
+/** Vérifie la taille du fichier avant envoi — évite une requête inutile si trop lourd */
+function validateFileSize(file: File): string | null {
+  if (file.size > MAX_FILE_SIZE) {
+    const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+    return `Fichier trop volumineux (${sizeMb} Mo). Taille maximale : 10 Mo.`;
+  }
+  return null;
 }
 
 /** Formulaire d'ajout de propriété — Client Component, gère l'état complexe (uploads, listes dynamiques) */
 export default function AddPropertyForm() {
   const router = useRouter();
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [localisation, setLocalisation] = useState('');
-  // Absent de la maquette mais requis par l'API — sans prix, le backend refuse la création
-  const [pricePerNight, setPricePerNight] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [localisation, setLocalisation] = useState("");
+  const [pricePerNight, setPricePerNight] = useState("");
 
-  const [cover, setCover] = useState('');
+  const [cover, setCover] = useState("");
   const [pictures, setPictures] = useState<string[]>([]);
 
-  const [hostName, setHostName] = useState('');
-  const [hostPicture, setHostPicture] = useState('');
+  const [hostName, setHostName] = useState("");
+  const [hostPicture, setHostPicture] = useState("");
 
   const [selectedEquipments, setSelectedEquipments] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
-  const [newTag, setNewTag] = useState('');
+  const [newTag, setNewTag] = useState("");
 
   const [error, setError] = useState<string | null>(null);
+  const [uploadingField, setUploadingField] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toggleEquipment = (equipment: string) => {
@@ -92,37 +86,77 @@ export default function AddPropertyForm() {
     if (trimmed && !tags.includes(trimmed)) {
       setTags((prev) => [...prev, trimmed]);
     }
-    setNewTag('');
+    setNewTag("");
   };
 
   const handleCoverUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
+
+    const sizeError = validateFileSize(file);
+    if (sizeError) {
+      setError(sizeError);
+      event.target.value = "";
+      return;
+    }
+
+    setError(null);
+    setUploadingField("cover");
     try {
       setCover(await uploadImage(file));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erreur lors de l'upload.");
+    } finally {
+      setUploadingField(null);
     }
   };
 
   const handlePictureUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
+
+    const sizeError = validateFileSize(file);
+    if (sizeError) {
+      setError(sizeError);
+      event.target.value = "";
+      return;
+    }
+
+    setError(null);
+    setUploadingField("picture");
     try {
       const url = await uploadImage(file);
       setPictures((prev) => [...prev, url]);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erreur lors de l'upload.");
+    } finally {
+      setUploadingField(null);
     }
+  };
+
+  const removePicture = (index: number) => {
+    setPictures((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleHostPictureUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
+
+    const sizeError = validateFileSize(file);
+    if (sizeError) {
+      setError(sizeError);
+      event.target.value = "";
+      return;
+    }
+
+    setError(null);
+    setUploadingField("hostPicture");
     try {
       setHostPicture(await uploadImage(file));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erreur lors de l'upload.");
+    } finally {
+      setUploadingField(null);
     }
   };
 
@@ -132,15 +166,13 @@ export default function AddPropertyForm() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch('/api/properties', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/properties", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title,
           description,
           cover,
-          // Code postal et localisation sont deux champs distincts dans la maquette,
-          // combinés ici car l'API n'expose qu'un seul champ "location"
           location: postalCode ? `${localisation} - ${postalCode}` : localisation,
           price_per_night: Number(pricePerNight),
           // Le backend ignore host.name et host.picture à l'enregistrement : il affiche
@@ -157,12 +189,12 @@ export default function AddPropertyForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error ?? 'Erreur lors de la création du logement.');
+        throw new Error(data.error ?? "Erreur lors de la création du logement.");
       }
 
       router.push(`/logement/${data.slug}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Une erreur est survenue.');
+      setError(err instanceof Error ? err.message : "Une erreur est survenue.");
     } finally {
       setIsSubmitting(false);
     }
@@ -179,7 +211,7 @@ export default function AddPropertyForm() {
           disabled={isSubmitting}
           className="rounded-xl bg-kasa-primary px-6 py-3 text-sm text-white hover:opacity-90 transition-opacity disabled:opacity-50"
         >
-          {isSubmitting ? 'Ajout...' : 'Ajouter'}
+          {isSubmitting ? "Ajout..." : "Ajouter"}
         </button>
       </div>
 
@@ -187,9 +219,7 @@ export default function AddPropertyForm() {
         <div className="flex flex-col gap-6">
           <div className="bg-white rounded-2xl p-6 flex flex-col gap-4">
             <div>
-              <label htmlFor="title" className="block text-sm mb-1">
-                Titre de la propriété
-              </label>
+              <label htmlFor="title" className="block text-sm mb-1">Titre de la propriété</label>
               <input
                 id="title"
                 type="text"
@@ -202,9 +232,7 @@ export default function AddPropertyForm() {
             </div>
 
             <div>
-              <label htmlFor="description" className="block text-sm mb-1">
-                Description
-              </label>
+              <label htmlFor="description" className="block text-sm mb-1">Description</label>
               <textarea
                 id="description"
                 required
@@ -217,9 +245,7 @@ export default function AddPropertyForm() {
             </div>
 
             <div>
-              <label htmlFor="postalCode" className="block text-sm mb-1">
-                Code postal
-              </label>
+              <label htmlFor="postalCode" className="block text-sm mb-1">Code postal</label>
               <input
                 id="postalCode"
                 type="text"
@@ -230,9 +256,7 @@ export default function AddPropertyForm() {
             </div>
 
             <div>
-              <label htmlFor="localisation" className="block text-sm mb-1">
-                Localisation
-              </label>
+              <label htmlFor="localisation" className="block text-sm mb-1">Localisation</label>
               <input
                 id="localisation"
                 type="text"
@@ -244,9 +268,7 @@ export default function AddPropertyForm() {
             </div>
 
             <div>
-              <label htmlFor="price" className="block text-sm mb-1">
-                Prix par nuit (€)
-              </label>
+              <label htmlFor="price" className="block text-sm mb-1">Prix par nuit (€)</label>
               <input
                 id="price"
                 type="number"
@@ -279,15 +301,23 @@ export default function AddPropertyForm() {
         <div className="flex flex-col gap-6">
           <div className="bg-white rounded-2xl p-6 flex flex-col gap-4">
             <div>
-              <label htmlFor="cover" className="block text-sm mb-1">
-                Image de couverture
-              </label>
+              <div className="flex items-center justify-between mb-1">
+                <label htmlFor="cover" className="block text-sm">Image de couverture</label>
+                <span className="text-xs text-kasa-text-secondary">Max 10 Mo</span>
+              </div>
+
+              {cover && (
+                <div className="relative w-full h-32 rounded-lg overflow-hidden mb-2">
+                  <Image src={cover} alt="Aperçu de la couverture" fill className="object-cover" />
+                </div>
+              )}
+
               <div className="flex gap-2">
                 <input
                   id="cover"
                   type="text"
                   readOnly
-                  value={cover}
+                  value={uploadingField === "cover" ? "Envoi en cours..." : cover}
                   placeholder="Aucune image sélectionnée"
                   className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm bg-gray-50"
                 />
@@ -304,21 +334,39 @@ export default function AddPropertyForm() {
             </div>
 
             <div>
-              <span className="block text-sm mb-1">Image du logement</span>
-              {pictures.map((picture, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  readOnly
-                  value={picture}
-                  className="w-full mb-2 rounded-lg border border-gray-300 px-4 py-2 text-sm bg-gray-50"
-                />
-              ))}
+              <div className="flex items-center justify-between mb-1">
+                <span className="block text-sm">Image du logement</span>
+                <span className="text-xs text-kasa-text-secondary">Max 10 Mo / fichier</span>
+              </div>
+
+              {pictures.length > 0 && (
+                <div className="grid grid-cols-3 gap-2 mb-2">
+                  {pictures.map((picture, index) => (
+                    <div key={index} className="relative aspect-square rounded-lg overflow-hidden group">
+                      <Image
+                        src={picture}
+                        alt={`Photo du logement ${index + 1}`}
+                        fill
+                        className="object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removePicture(index)}
+                        aria-label="Retirer cette image"
+                        className="absolute top-1 right-1 h-6 w-6 rounded-lg bg-black/60 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <div className="flex gap-2">
                 <input
                   type="text"
                   readOnly
-                  value=""
+                  value={uploadingField === "picture" ? "Envoi en cours..." : ""}
                   placeholder="Aucune image sélectionnée"
                   className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm bg-gray-50"
                 />
@@ -335,18 +383,9 @@ export default function AddPropertyForm() {
             </div>
           </div>
 
-          {/*
-            Ces deux champs (Nom de l'hôte / Photo de profil) sont présents pour
-            rester fidèle à la maquette Figma, mais l'API backend les ignore à la
-            création : elle affiche toujours le nom/photo du compte owner connecté
-            (lié via host_id), pas les valeurs saisies dans ce formulaire.
-            */}
-
           <div className="bg-white rounded-2xl p-6 flex flex-col gap-4">
             <div>
-              <label htmlFor="hostName" className="block text-sm mb-1">
-                Nom de l&apos;hôte
-              </label>
+              <label htmlFor="hostName" className="block text-sm mb-1">Nom de l&apos;hôte</label>
               <input
                 id="hostName"
                 type="text"
@@ -358,12 +397,22 @@ export default function AddPropertyForm() {
             </div>
 
             <div>
-              <span className="block text-sm mb-1">Photo de profil</span>
+              <div className="flex items-center justify-between mb-1">
+                <span className="block text-sm">Photo de profil</span>
+                <span className="text-xs text-kasa-text-secondary">Max 10 Mo</span>
+              </div>
+
+              {hostPicture && (
+                <div className="relative h-20 w-20 rounded-full overflow-hidden mb-2">
+                  <Image src={hostPicture} alt="Aperçu de la photo de profil" fill className="object-cover" />
+                </div>
+              )}
+
               <div className="flex gap-2">
                 <input
                   type="text"
                   readOnly
-                  value={hostPicture}
+                  value={uploadingField === "hostPicture" ? "Envoi en cours..." : hostPicture}
                   placeholder="Aucune image sélectionnée"
                   className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm bg-gray-50"
                 />
@@ -389,9 +438,7 @@ export default function AddPropertyForm() {
                   type="button"
                   onClick={() => toggleTag(tag)}
                   className={`rounded-lg border px-4 py-2 text-sm ${
-                    tags.includes(tag)
-                      ? 'bg-kasa-primary text-white border-kasa-primary'
-                      : 'border-gray-300'
+                    tags.includes(tag) ? "bg-kasa-primary text-white border-kasa-primary" : "border-gray-300"
                   }`}
                 >
                   {tag}
@@ -411,9 +458,7 @@ export default function AddPropertyForm() {
                 ))}
             </div>
 
-            <label htmlFor="newTag" className="block text-sm mb-1">
-              Ajouter une catégorie personnalisée
-            </label>
+            <label htmlFor="newTag" className="block text-sm mb-1">Ajouter une catégorie personnalisée</label>
             <div className="flex gap-2">
               <input
                 id="newTag"
@@ -423,11 +468,7 @@ export default function AddPropertyForm() {
                 placeholder="Nouveau tag"
                 className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm"
               />
-              <button
-                type="button"
-                onClick={addCustomTag}
-                className="rounded-lg bg-kasa-primary px-4 text-white"
-              >
+              <button type="button" onClick={addCustomTag} className="rounded-lg bg-kasa-primary px-4 text-white">
                 +
               </button>
             </div>
