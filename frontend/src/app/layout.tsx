@@ -4,6 +4,8 @@ import './globals.css';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import { FavoritesProvider } from '@/context/FavoritesContext';
+import { SITE_URL } from "@/lib/site";
+
 
 const inter = Inter({
   subsets: ['latin'],
@@ -12,6 +14,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'Kasa - Chez vous, partout et ailleurs',
   description: 'Trouvez votre prochain logement avec Kasa',
 };
