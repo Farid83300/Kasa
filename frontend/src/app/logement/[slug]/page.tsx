@@ -33,8 +33,43 @@ export default async function PropertyPage({ params }: PageProps) {
     notFound();
   }
 
+  // Données structurées Schema.org — aide les moteurs de recherche à comprendre
+  // le contenu de la page (rich snippets potentiels : prix, note, adresse).
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LodgingBusiness',
+    name: property.title,
+    description: property.description,
+    image: property.pictures,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: property.location,
+      addressCountry: 'FR',
+    },
+    priceRange: `${property.price_per_night}€`,
+    // aggregateRating omis si ratings_count est à 0, pour respecter les
+    // consignes Google (ne pas afficher de note sans avis réels associés)
+    ...(property.ratings_count > 0 && {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: property.rating_avg,
+        reviewCount: property.ratings_count,
+      },
+    }),
+    amenityFeature: property.equipments.map((equipment) => ({
+      '@type': 'LocationFeatureSpecification',
+      name: equipment,
+      value: true,
+    })),
+  };
+
   return (
     <div className="px-4 md:px-8 max-w-1440 mx-auto pb-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <Link
         href="/"
         className="inline-flex items-center gap-2 mb-6 rounded-xl border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50 transition-colors"

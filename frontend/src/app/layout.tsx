@@ -4,8 +4,7 @@ import './globals.css';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import { FavoritesProvider } from '@/context/FavoritesContext';
-import { SITE_URL } from "@/lib/site";
-
+import { SITE_URL } from '@/lib/site';
 
 const inter = Inter({
   subsets: ['latin'],

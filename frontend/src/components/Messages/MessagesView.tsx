@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import { mockConversations } from "@/data/mockMessages";
+import { useState } from 'react';
+import Link from 'next/link';
+import { mockConversations } from '@/data/mockMessages';
 
 /**
  * Interface de messagerie — Client Component pour la sélection de conversation.
@@ -18,7 +18,7 @@ export default function MessagesView() {
       {/* Liste des conversations — masquée sur mobile quand une conversation est ouverte */}
       <div
         className={`w-full md:w-96 md:shrink-0 md:border-r border-gray-200 overflow-y-auto ${
-          selected ? "hidden md:block" : "block"
+          selected ? 'hidden md:block' : 'block'
         }`}
       >
         <div className="p-4 border-b border-gray-200">
@@ -38,7 +38,7 @@ export default function MessagesView() {
                 type="button"
                 onClick={() => setSelectedId(conversation.id)}
                 className={`w-full flex items-center gap-3 p-4 text-left border-b border-gray-100 hover:bg-gray-50 transition-colors ${
-                  conversation.id === selectedId ? "bg-kasa-bg" : ""
+                  conversation.id === selectedId ? 'bg-kasa-bg' : ''
                 }`}
               >
                 <div className="h-10 w-10 rounded-lg bg-gray-200 shrink-0" aria-hidden="true" />
@@ -49,9 +49,7 @@ export default function MessagesView() {
                   </p>
                 </div>
                 <div className="flex flex-col items-end gap-1 shrink-0">
-                  <span className="text-xs text-kasa-text-secondary">
-                    {conversation.timestamp}
-                  </span>
+                  <span className="text-xs text-kasa-text-secondary">{conversation.timestamp}</span>
                   {conversation.unread && (
                     <span
                       className="h-2 w-2 rounded-full bg-kasa-primary"
@@ -66,7 +64,7 @@ export default function MessagesView() {
       </div>
 
       {/* Détail de la conversation — visible seulement si sélectionnée sur mobile */}
-      <div className={`flex-1 flex flex-col ${selected ? "flex" : "hidden md:flex"}`}>
+      <div className={`flex-1 flex flex-col ${selected ? 'flex' : 'hidden md:flex'}`}>
         {selected ? (
           <>
             <div className="p-4 border-b border-gray-200 md:hidden">
@@ -89,10 +87,10 @@ export default function MessagesView() {
                   )}
                   <div
                     className={`flex items-end gap-2 ${
-                      message.sender === "user" ? "justify-end" : "justify-start"
+                      message.sender === 'user' ? 'justify-end' : 'justify-start'
                     }`}
                   >
-                    {message.sender === "host" && (
+                    {message.sender === 'host' && (
                       <div className="h-8 w-8 rounded-lg bg-gray-200 shrink-0" aria-hidden="true" />
                     )}
                     <div>
@@ -101,15 +99,13 @@ export default function MessagesView() {
                       </p>
                       <div
                         className={`rounded-2xl px-4 py-3 text-sm max-w-xs ${
-                          message.sender === "user"
-                            ? "bg-kasa-primary text-white"
-                            : "bg-kasa-bg"
+                          message.sender === 'user' ? 'bg-kasa-primary text-white' : 'bg-kasa-bg'
                         }`}
                       >
                         {message.content}
                       </div>
                     </div>
-                    {message.sender === "user" && (
+                    {message.sender === 'user' && (
                       <div className="h-8 w-8 rounded-lg bg-gray-200 shrink-0" aria-hidden="true" />
                     )}
                   </div>

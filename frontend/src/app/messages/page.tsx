@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
-import MessagesView from "@/components/Messages/MessagesView";
+import type { Metadata } from 'next';
+import MessagesView from '@/components/Messages/MessagesView';
 
 export const metadata: Metadata = {
-  title: "Messagerie — Kasa",
+  title: 'Messagerie — Kasa',
 };
 
 export default function MessagesPage() {
