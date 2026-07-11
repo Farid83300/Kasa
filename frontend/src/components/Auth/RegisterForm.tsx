@@ -145,10 +145,8 @@ export default function RegisterForm() {
           className="mt-1"
         />
         <span>
-          J&apos;accepte les{' '}
-          <Link href="/cgu" className="underline">
-            conditions générales d&apos;utilisation
-          </Link>
+          J&apos;accepte les{" "}
+          <span className="underline">conditions générales d&apos;utilisation</span>
         </span>
       </label>
 
