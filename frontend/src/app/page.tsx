@@ -15,9 +15,12 @@ export default async function Home() {
       />
 
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-10">
+        {/* sr-only : rétablit une hiérarchie de titres logique (h1 > h2 > h3) sans changement visuel */}
+        <h2 className="sr-only">Liste des logements disponibles</h2>
         {properties.map((property, index) => (
-          // priority uniquement sur la première carte — LCP (Largest Contentful Paint)
-          <PropertyCard key={property.id} property={property} priority={index === 0} />
+          // priority sur les 3 premières cartes (première rangée en desktop) — couvre
+          // le LCP quelle que soit la résolution d'écran, pas seulement la carte n°0
+          <PropertyCard key={property.id} property={property} priority={index < 3} />
         ))}
       </section>
 

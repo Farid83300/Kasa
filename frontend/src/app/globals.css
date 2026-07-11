@@ -1,17 +1,15 @@
 @import 'tailwindcss';
 
 @theme inline {
-  /* Couleurs de marque Kasa */
   --color-kasa-primary: #842c16;
   --color-kasa-accent: #e84a2f;
   --color-kasa-bg: #fffbf8;
-  --color-kasa-text-secondary: #808080;
+  /* #737373 : passe le seuil WCAG AA (4.5:1) même sur le fond crème #fffbf8, le plus exigeant des deux fonds utilisés */
+  --color-kasa-text-secondary: #737373;
 
-  /* Police */
   --font-sans: var(--font-inter);
-
-  /* Largeur de conteneur personnalisée */
   --container-1440: 1440px;
+  --spacing-114: 456px;
 }
 
 body {

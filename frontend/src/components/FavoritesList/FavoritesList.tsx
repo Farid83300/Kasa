@@ -28,6 +28,8 @@ export default function FavoritesList({ properties }: FavoritesListProps) {
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-10">
+      {/* sr-only : rétablit une hiérarchie de titres logique (h1 > h2 > h3) sans changement visuel */}
+      <h2 className="sr-only">Vos logements favoris</h2>
       {favoriteProperties.map((property) => (
         <PropertyCard key={property.id} property={property} />
       ))}
