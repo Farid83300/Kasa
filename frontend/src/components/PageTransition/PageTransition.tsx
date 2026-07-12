@@ -30,7 +30,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
         key={pathname}
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="relative z-10 bg-kasa-bg"
       >
         {children}

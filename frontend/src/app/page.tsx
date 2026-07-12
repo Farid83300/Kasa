@@ -5,7 +5,7 @@ import HowItWorks from '@/components/HowItWorks/HowItWorks';
 
 /** Page d'accueil — Server Component, le fetch se fait directement sans useEffect */
 export default async function Home() {
-  const properties = await getProperties();
+  const properties = await getProperties({ cache: true });
 
   return (
     <div className="px-4 md:px-8 max-w-1440 mx-auto pb-16">
