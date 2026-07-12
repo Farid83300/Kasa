@@ -9,18 +9,7 @@ export default function Loading() {
 
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="flex-1 flex flex-col gap-6">
-          {/* Mobile : bloc unique (correspond au carrousel) */}
-          <div className="h-64 rounded-2xl bg-gray-200 animate-pulse md:hidden" />
-
-          {/* Desktop : grille (correspond à la galerie statique) — chaque case a son propre arrondi */}
-          <div className="hidden md:grid md:h-112.5 gap-2 md:grid-cols-3">
-            <div className="col-span-2 rounded-2xl bg-gray-200 animate-pulse" />
-            <div className="grid grid-cols-2 gap-2">
-              {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="rounded-2xl bg-gray-200 animate-pulse" />
-              ))}
-            </div>
-          </div>
+          <div className="h-64 md:h-112.5 rounded-2xl bg-gray-200 animate-pulse" />
 
           <div className="space-y-2">
             <div className="h-6 w-1/2 bg-gray-200 rounded animate-pulse" />
