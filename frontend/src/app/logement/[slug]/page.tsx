@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { MapPin } from 'lucide-react';
 import type { Metadata } from 'next';
 import { getPropertyBySlug } from '@/lib/properties';
 import Gallery from '@/components/Gallery/Gallery';
@@ -84,7 +85,7 @@ export default async function PropertyPage({ params }: PageProps) {
           <div>
             <h1 className="text-2xl font-bold">{property.title}</h1>
             <p className="mt-1 flex items-center gap-1 text-sm text-kasa-text-secondary">
-              <span aria-hidden="true">📍</span>
+              <MapPin size={16} aria-hidden="true" />
               {property.location}
             </p>
           </div>

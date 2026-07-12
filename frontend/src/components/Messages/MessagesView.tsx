@@ -114,7 +114,11 @@ export default function MessagesView() {
             </div>
 
             <div className="p-4 border-t border-gray-200 flex gap-2">
+              <label htmlFor="messageInput" className="sr-only">
+                Envoyer un message
+              </label>
               <input
+                id="messageInput"
                 type="text"
                 placeholder="Envoyer un message"
                 disabled

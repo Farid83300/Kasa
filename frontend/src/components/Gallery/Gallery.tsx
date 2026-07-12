@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useCallback, useState, type KeyboardEvent } from 'react';
 
 interface GalleryProps {
@@ -60,23 +61,25 @@ export default function Gallery({ images, alt }: GalleryProps) {
 
       {hasMultipleImages && (
         <>
+          {/* Fond semi-transparent derrière chaque élément — garantit un contraste stable
+              indépendamment de la couleur de la photo affichée en dessous */}
           <button
             type="button"
             onClick={goToPrevious}
             aria-label="Image précédente"
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-3xl cursor-pointer"
+            className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center h-9 w-9 rounded-full bg-black/50 text-white cursor-pointer"
           >
-            ‹
+            <ChevronLeft size={20} strokeWidth={2.5} />
           </button>
           <button
             type="button"
             onClick={goToNext}
             aria-label="Image suivante"
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-3xl cursor-pointer"
+            className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center justify-center h-9 w-9 rounded-full bg-black/50 text-white cursor-pointer"
           >
-            ›
+            <ChevronRight size={20} strokeWidth={2.5} />
           </button>
-          <span className="absolute bottom-4 right-4 text-white text-sm">
+          <span className="absolute bottom-4 right-4 rounded-lg bg-black/50 px-2 py-1 text-white text-sm">
             {currentIndex + 1}/{images.length}
           </span>
         </>
