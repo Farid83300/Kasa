@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { X } from "lucide-react";
-import { useEffect, type ReactNode } from "react";
+import { useRouter } from 'next/navigation';
+import { X } from 'lucide-react';
+import { useEffect, type ReactNode } from 'react';
 
 interface ModalProps {
   children: ReactNode;
@@ -20,10 +20,10 @@ export default function Modal({ children }: ModalProps) {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") close();
+      if (event.key === 'Escape') close();
     };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

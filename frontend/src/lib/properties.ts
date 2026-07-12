@@ -1,24 +1,30 @@
-import { PropertySummary, PropertyDetail } from "@/types/logement";
+import { PropertySummary, PropertyDetail } from '@/types/logement';
+import { mockProperties } from '@/data/mockProperties';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+// Activée uniquement via une variable d'environnement Vercel — jamais dans
+// .env.local. Permet un déploiement frontend-only sans backend live,
+// conformément à la recommandation OpenClassrooms sur le mock de données.
+const DEMO_MODE = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
+
 /**
- * Récupère la liste complète des propriétés depuis l'API.
- * @param options.cache - Si true, met en cache la réponse 30s (utilisé
- * uniquement par la page d'accueil pour éviter un skeleton visible lors
- * des navigations rapides). Par défaut à false : données toujours fraîches,
- * nécessaire pour getPropertyBySlug (redirection après création d'un logement).
+ * Récupère la liste complète des propriétés.
+ * En mode démo, retourne l'instantané statique local sans appel réseau.
+ * @param options.cache - Si true, met en cache la réponse 30s (page d'accueil uniquement).
  */
-export async function getProperties(
-  options?: { cache?: boolean }
-): Promise<PropertySummary[]> {
+export async function getProperties(options?: { cache?: boolean }): Promise<PropertySummary[]> {
+  if (DEMO_MODE) {
+    return mockProperties;
+  }
+
   const res = await fetch(
     `${API_URL}/properties`,
-    options?.cache ? { next: { revalidate: 30 } } : { cache: "no-store" }
+    options?.cache ? { next: { revalidate: 30 } } : { cache: 'no-store' }
   );
 
   if (!res.ok) {
-    throw new Error("Erreur lors de la récupération des propriétés");
+    throw new Error('Erreur lors de la récupération des propriétés');
   }
 
   return res.json();
@@ -26,13 +32,20 @@ export async function getProperties(
 
 /**
  * Récupère le détail complet d'une propriété par son ID.
- * @param id - Identifiant unique du logement côté backend.
+ * En mode démo, cherche directement dans l'instantané statique.
+ * @param id - Identifiant unique du logement.
  */
 export async function getPropertyById(id: string): Promise<PropertyDetail> {
-  const res = await fetch(`${API_URL}/properties/${id}`, { cache: "no-store" });
+  if (DEMO_MODE) {
+    const property = mockProperties.find((p) => p.id === id);
+    if (!property) throw new Error('Propriété introuvable');
+    return property;
+  }
+
+  const res = await fetch(`${API_URL}/properties/${id}`, { cache: 'no-store' });
 
   if (!res.ok) {
-    throw new Error("Propriété introuvable");
+    throw new Error('Propriété introuvable');
   }
 
   return res.json();
@@ -40,12 +53,14 @@ export async function getPropertyById(id: string): Promise<PropertyDetail> {
 
 /**
  * Récupère une propriété par son slug (ex: "appartement-cosy").
- * Toujours des données fraîches (pas de cache) — nécessaire pour retrouver
- * un logement tout juste créé lors de la redirection post-création.
+ * @param slug - Identifiant lisible utilisé dans l'URL.
+ * @returns Le détail du logement, ou `null` si aucun ne correspond.
  */
-export async function getPropertyBySlug(
-  slug: string
-): Promise<PropertyDetail | null> {
+export async function getPropertyBySlug(slug: string): Promise<PropertyDetail | null> {
+  if (DEMO_MODE) {
+    return mockProperties.find((p) => p.slug === slug) ?? null;
+  }
+
   const properties = await getProperties();
   const match = properties.find((property) => property.slug === slug);
 

@@ -10,7 +10,7 @@ export default function Rating({ value, max = 5 }: RatingProps) {
       {Array.from({ length: max }).map((_, i) => (
         <span
           key={i}
-          className={i < Math.round(value) ? "text-kasa-primary" : "text-gray-300"}
+          className={i < Math.round(value) ? 'text-kasa-primary' : 'text-gray-300'}
           aria-hidden="true"
         >
           ★

@@ -17,6 +17,11 @@ export default function LoginForm() {
     setError(null);
     setIsSubmitting(true);
 
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === 'true') {
+      setError('Cette fonctionnalité nécessite un backend, indisponible en mode démonstration.');
+      return;
+    }
+
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',

@@ -20,6 +20,11 @@ export default function RegisterForm() {
     event.preventDefault();
     setError(null);
 
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === 'true') {
+      setError('Cette fonctionnalité nécessite un backend, indisponible en mode démonstration.');
+      return;
+    }
+
     if (!acceptedTerms) {
       setError("Vous devez accepter les conditions générales d'utilisation.");
       return;
@@ -145,7 +150,7 @@ export default function RegisterForm() {
           className="mt-1"
         />
         <span>
-          J&apos;accepte les{" "}
+          J&apos;accepte les{' '}
           <span className="underline">conditions générales d&apos;utilisation</span>
         </span>
       </label>

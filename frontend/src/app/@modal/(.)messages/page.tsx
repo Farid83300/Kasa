@@ -1,5 +1,5 @@
-import Modal from "@/components/Modal/Modal";
-import MessagesView from "@/components/Messages/MessagesView";
+import Modal from '@/components/Modal/Modal';
+import MessagesView from '@/components/Messages/MessagesView';
 
 /**
  * Version interceptée de /messages — s'affiche en modale par-dessus
