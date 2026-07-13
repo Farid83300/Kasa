@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { AnimatePresence, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { AnimatePresence, motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
+import type { ReactNode } from 'react';
 
 interface PageTransitionProps {
   children: ReactNode;
@@ -10,7 +10,7 @@ interface PageTransitionProps {
 
 // Seules ces deux routes ont l'effet de glissement, fidèle au prototype Figma —
 // toutes les autres pages s'affichent normalement, sans animation.
-const ANIMATED_ROUTES = ["/", "/a-propos"];
+const ANIMATED_ROUTES = ['/', '/a-propos'];
 
 /**
  * Anime la transition uniquement entre l'accueil et à propos : la nouvelle
@@ -28,9 +28,9 @@ export default function PageTransition({ children }: PageTransitionProps) {
     <AnimatePresence initial={false}>
       <motion.div
         key={pathname}
-        initial={{ x: "100%" }}
+        initial={{ x: '100%' }}
         animate={{ x: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
         className="relative z-10 bg-kasa-bg"
       >
         {children}
