@@ -6,6 +6,7 @@ import { getPropertyBySlug } from '@/lib/properties';
 import Gallery from '@/components/Gallery/Gallery';
 import Tag from '@/components/Tag/Tag';
 import HostInfo from '@/components/HostInfo/HostInfo';
+import Collapse from '@/components/Collapse/Collapse';
 
 // params est une Promise depuis Next.js 15+ — à awaiter avant déstructuration
 interface PageProps {
@@ -90,13 +91,12 @@ export default async function PropertyPage({ params }: PageProps) {
             </p>
           </div>
 
-          <p className="text-sm leading-relaxed">{property.description}</p>
+          <Collapse title="Description" defaultOpen>
+            <p className="text-sm leading-relaxed">{property.description}</p>
+          </Collapse>
 
           {property.equipments.length > 0 && (
-            <section aria-labelledby="equipements-titre">
-              <h2 id="equipements-titre" className="mb-3 font-semibold">
-                Équipements
-              </h2>
+            <Collapse title="Équipements" defaultOpen>
               <ul className="flex flex-wrap gap-2" role="list">
                 {property.equipments.map((equipment) => (
                   <li key={equipment}>
@@ -104,14 +104,11 @@ export default async function PropertyPage({ params }: PageProps) {
                   </li>
                 ))}
               </ul>
-            </section>
+            </Collapse>
           )}
 
           {property.tags.length > 0 && (
-            <section aria-labelledby="categorie-titre">
-              <h2 id="categorie-titre" className="mb-3 font-semibold">
-                Catégorie
-              </h2>
+            <Collapse title="Catégorie" defaultOpen>
               <ul className="flex flex-wrap gap-2" role="list">
                 {property.tags.map((tag) => (
                   <li key={tag}>
@@ -119,7 +116,7 @@ export default async function PropertyPage({ params }: PageProps) {
                   </li>
                 ))}
               </ul>
-            </section>
+            </Collapse>
           )}
         </div>
 

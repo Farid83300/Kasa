@@ -20,7 +20,8 @@ export default function Banner({ subtitle, imageSrc }: BannerProps) {
           src={imageSrc}
           alt="Bannière de Kasa"
           fill
-          priority
+          loading="eager"
+          fetchPriority="high"
           sizes="(max-width: 768px) 100vw, 1200px"
           className="object-cover"
         />
