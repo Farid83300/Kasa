@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import DemoBanner from '@/components/DemoBanner/DemoBanner';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import { FavoritesProvider } from '@/context/FavoritesContext';
@@ -31,7 +30,6 @@ export default function RootLayout({
     <html lang="fr">
       <body className={`${inter.variable} antialiased flex min-h-screen flex-col`}>
         <FavoritesProvider>
-          <DemoBanner />
           <Header />
           <main className="flex-1 overflow-hidden">
             <PageTransition>{children}</PageTransition>
